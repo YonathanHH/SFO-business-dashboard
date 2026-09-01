@@ -1,5 +1,5 @@
 node_modules
 dist
-raw_data.csv
+/raw_data.csv
 README.md
 .git
