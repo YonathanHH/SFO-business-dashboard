@@ -607,7 +607,6 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
           <div className="w-full" style={{ height: 300, minHeight: 300 }}>
             <ResponsiveContainer width="100%" height={300} minWidth={0}>
               <BarChart
-                isAnimationActive={false}
                 data={topAirlines}
                 layout="vertical"
                 margin={{ top: 5, right: 30, left: 40, bottom: 5 }}

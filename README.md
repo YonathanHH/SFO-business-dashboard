@@ -37,7 +37,7 @@ Landing Count, Total Landed Weight
 
 ## Getting started
 
-Requires Node.js 18+.
+Requires Node.js 20.19+.
 
 ```bash
 npm install
@@ -49,11 +49,37 @@ npm run dev        # Vite dev server on http://localhost:5173 (opens automatical
 | `npm run dev` | Start the Vite dev server with HMR |
 | `npm run build` | Type-check with `tsc`, then build to `dist/` |
 | `npm run preview` | Serve the production build locally |
+| `npm run type-check` | Run `tsc --noEmit` without building |
 
-> **Note:** `npm run build` currently fails at the `tsc` step on three pre-existing type errors —
-> unused `LineChart` / `Line` imports in `BoeingVsAirbusView.tsx`, and an invalid
-> `isAnimationActive` prop on the `<BarChart>` at `OverviewView.tsx:610` (that prop belongs on
-> `<Bar>`). `npm run dev` is unaffected. Clean these up before shipping a production build.
+---
+
+## Deploying to Vercel
+
+The app is a fully static SPA, so it deploys as-is with no environment variables or backend.
+
+```bash
+npm i -g vercel
+vercel        # preview deployment
+vercel --prod # production deployment
+```
+
+Or import the repository at [vercel.com/new](https://vercel.com/new) — the settings are already
+committed in `vercel.json` and Vercel will pick them up automatically:
+
+| Setting | Value |
+|---|---|
+| Framework preset | Vite |
+| Install command | `npm ci` |
+| Build command | `npm run build` |
+| Output directory | `dist` |
+| Node version | 20.x+ (pinned via `.nvmrc` and `engines`) |
+
+`vercel.json` also adds a SPA rewrite so any client-side route falls back to `index.html`, and
+long-lived cache headers for the hashed `dist/assets/*` bundles plus a shorter, CDN-cached TTL for
+`raw_data.csv` and `data/summary.json`.
+
+The root-level `raw_data.csv` is a duplicate of `public/raw_data.csv` kept for the offline
+pre-aggregation script; `.vercelignore` keeps it out of the deployment upload.
 
 ---
 
