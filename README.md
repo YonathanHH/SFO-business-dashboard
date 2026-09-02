@@ -9,13 +9,15 @@ raw data explorer, and executive insights.
 Everything runs client-side. There is no backend, no API key, and no build-time data pipeline
 required — the CSV is fetched from `public/` and parsed in the browser on load.
 
+## Credit
+The dataset created by Mohamadreza Momeni and sourced from [Kaggle](https://www.kaggle.com/datasets/imtkaggleteam/air-traffic-landings)
 ---
 
 ## Dataset
 
 | | |
 |---|---|
-| Source file | `raw_data.csv` (served from `public/raw_data.csv`) |
+| Source file | [Kaggle](https://www.kaggle.com/datasets/imtkaggleteam/air-traffic-landings) |
 | Records | 22,048 rows |
 | Period | 200507 – 201809 (monthly `Activity Period` keys) |
 | Total landings | ~2.50M |
