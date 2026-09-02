@@ -38,6 +38,11 @@ export const GeoDynamicsView: React.FC<GeoDynamicsViewProps> = ({ geoRegions, we
     [geoRegions]
   );
 
+  const internationalTotal = useMemo(
+    () => internationalRegions.reduce((sum, r) => sum + r.landings, 0),
+    [internationalRegions]
+  );
+
   const usRegion = useMemo(
     () => geoRegions.find((r) => r.region.toLowerCase() === 'us'),
     [geoRegions]
@@ -410,7 +415,7 @@ export const GeoDynamicsView: React.FC<GeoDynamicsViewProps> = ({ geoRegions, we
             <span className="text-xs font-mono text-aviation-textMuted">Cross-Border Corridors</span>
           </div>
 
-          <div className="h-72">
+          <div className="relative h-60">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -419,8 +424,8 @@ export const GeoDynamicsView: React.FC<GeoDynamicsViewProps> = ({ geoRegions, we
                   nameKey="region"
                   cx="50%"
                   cy="50%"
-                  innerRadius={60}
-                  outerRadius={100}
+                  innerRadius={58}
+                  outerRadius={96}
                   paddingAngle={3}
                   onClick={(entry: any) => {
                     const key = normalizeRegion(entry?.region ?? entry?.payload?.region ?? '');
@@ -436,7 +441,7 @@ export const GeoDynamicsView: React.FC<GeoDynamicsViewProps> = ({ geoRegions, we
                         fill={getGeoColor(entry.region)}
                         stroke={isSelected ? '#F8FAFC' : '#0B111E'}
                         strokeWidth={isSelected ? 2.5 : 2}
-                        opacity={selectedRegion && !isSelected ? 0.45 : 1}
+                        fillOpacity={selectedRegion && !isSelected ? 0.35 : 1}
                         className="cursor-pointer outline-none"
                       />
                     );
@@ -445,6 +450,49 @@ export const GeoDynamicsView: React.FC<GeoDynamicsViewProps> = ({ geoRegions, we
                 <Tooltip content={<CustomTooltip weightUnit={weightUnit} />} />
               </PieChart>
             </ResponsiveContainer>
+
+            {/* Part-to-whole anchor in the donut hole */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-aviation-textMuted">
+                Intl Landings
+              </span>
+              <span className="text-xl font-bold font-mono text-white">
+                {formatNumber(internationalTotal)}
+              </span>
+            </div>
+          </div>
+
+          {/* Legend doubles as a selector */}
+          <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-1.5">
+            {internationalRegions.map((entry) => {
+              const key = normalizeRegion(entry.region);
+              const isSelected = key !== null && key === selectedRegion;
+              return (
+                <button
+                  key={`legend-${entry.region}`}
+                  type="button"
+                  disabled={key === null}
+                  onClick={() => key && setSelectedRegion(isSelected ? null : key)}
+                  aria-pressed={isSelected}
+                  className={`flex items-center justify-between gap-2 px-1.5 py-1 rounded text-[11px] font-mono transition-colors ${
+                    isSelected ? 'bg-aviation-cardHover text-white' : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <span className="flex items-center gap-1.5 min-w-0">
+                    <span
+                      className="w-2 h-2 rounded-sm shrink-0"
+                      style={{ backgroundColor: getGeoColor(entry.region) }}
+                    />
+                    <span className="truncate">{entry.region}</span>
+                  </span>
+                  <span className="shrink-0 text-slate-300">
+                    {formatPercent(
+                      internationalTotal > 0 ? entry.landings / internationalTotal : 0
+                    )}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -491,7 +539,7 @@ export const GeoDynamicsView: React.FC<GeoDynamicsViewProps> = ({ geoRegions, we
                       <Cell
                         key={`gauge-${entry.region}`}
                         fill={getGeoColor(entry.region)}
-                        opacity={selectedRegion && !isSelected ? 0.4 : 1}
+                        fillOpacity={selectedRegion && !isSelected ? 0.3 : 1}
                         className="cursor-pointer outline-none"
                       />
                     );

@@ -123,7 +123,7 @@ The aggregation functions in `dataProcessor.ts`:
 | **Mission Control** | `OverviewView` | Main operations timeline with metric (landings / weight / avg weight), breakdown (OEM / route scope / body type / total), granularity (month / quarter / year), and chart type (area / line / bar) toggles; top 10 airlines; OEM market-share pie; top airframes |
 | **Boeing vs Airbus** | `BoeingVsAirbusView` | Head-to-head scoreboard, duopoly trajectory chart (share % or absolute volume), flagship airframe comparison, and carrier fleet loyalty (Boeing-exclusive / Airbus-exclusive / mixed fleets) |
 | **Carrier Intelligence** | `AirlinesView` | Per-airline volumes, fleet composition, and route footprint |
-| **Geographic Routes** | `GeoDynamicsView` | Domestic vs international distribution, per-region volumes, average aircraft gauge by region |
+| **Geographic Routes** | `GeoDynamicsView` | Interactive corridor globe (drag/zoom/click), per-region drill-down, domestic vs international distribution, average aircraft gauge by region |
 | **Fleet & Gauge** | `FleetEvolutionView` | Body-type mix shift over time and the up-gauging (avg MTOW per flight) trend |
 | **Data Explorer** | `DataExplorerView` | Sortable, paginated raw table with pivot-by (manufacturer / airline / region / year) and CSV export of the current filtered set |
 | **Executive Insights** | `InsightsView` | Monthly seasonality cycle, historical aviation milestones, strategic takeaways |

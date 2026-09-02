@@ -201,8 +201,10 @@ export const RouteGlobe: React.FC<RouteGlobeProps> = ({
 
   useEffect(() => () => stopFlight(), [stopFlight]);
 
-  // Idle auto-rotation, suspended whenever the user is engaged with the globe.
-  const paused = !spinning || isDragging || isFlying || hoveredRegion !== null;
+  // Idle auto-rotation, suspended whenever the user is engaged with the globe. A locked
+  // selection keeps its corridor framed instead of letting it drift back out of view.
+  const paused =
+    !spinning || isDragging || isFlying || hoveredRegion !== null || selectedRegion !== null;
   useEffect(() => {
     if (paused) return;
     let frame = 0;
