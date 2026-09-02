@@ -88,16 +88,39 @@ export function getBodyTypeColor(bodyType: string): string {
   return '#94A3B8';
 }
 
+const GEO_REGION_COLORS: Record<string, string> = {
+  'us': '#38BDF8',
+  'usa': '#38BDF8',
+  'domestic': '#38BDF8',
+  'canada': '#10B981',
+  'mexico': '#F97316',
+  'central america': '#EAB308',
+  'caribbean': '#F43F5E',
+  'south america': '#14B8A6',
+  'europe': '#A855F7',
+  'middle east': '#6366F1',
+  'asia': '#EC4899',
+  'australia / oceania': '#06B6D4',
+  'oceania': '#06B6D4',
+};
+
 export function getGeoColor(region: string): string {
-  const r = (region || '').toLowerCase();
-  if (r.includes('us') || r.includes('domestic')) return '#38BDF8';
-  if (r.includes('asia')) return '#EC4899'; // Pink
-  if (r.includes('europe')) return '#A855F7'; // Purple
-  if (r.includes('canada')) return '#10B981'; // Green
-  if (r.includes('mexico')) return '#F97316'; // Orange
-  if (r.includes('australia') || r.includes('oceania')) return '#06B6D4'; // Cyan
-  if (r.includes('central')) return '#EAB308'; // Yellow
-  if (r.includes('middle east')) return '#6366F1'; // Indigo
-  if (r.includes('south america')) return '#14B8A6'; // Teal
+  const r = (region || '').trim().toLowerCase();
+
+  // Exact match first: substring matching alone is unsafe here, e.g.
+  // 'australia / oceania'.includes('us') is true and would steal the US colour.
+  const exact = GEO_REGION_COLORS[r];
+  if (exact) return exact;
+
+  if (r.includes('australia') || r.includes('oceania')) return '#06B6D4';
+  if (r.includes('caribbean')) return '#F43F5E';
+  if (r.includes('central america')) return '#EAB308';
+  if (r.includes('south america')) return '#14B8A6';
+  if (r.includes('middle east')) return '#6366F1';
+  if (r.includes('canada')) return '#10B981';
+  if (r.includes('mexico')) return '#F97316';
+  if (r.includes('europe')) return '#A855F7';
+  if (r.includes('asia')) return '#EC4899';
+  if (r.includes('domestic') || r === 'us') return '#38BDF8';
   return '#94A3B8';
 }

@@ -56,3 +56,46 @@
     linear-gradient(to right, rgba(30, 45, 74, 0.25) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(30, 45, 74, 0.25) 1px, transparent 1px);
 }
+
+/* Interactive route globe */
+.corridor-pulse {
+  stroke-dashoffset: 0;
+  animation: corridorFlow 1.6s linear infinite;
+}
+
+@keyframes corridorFlow {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+.origin-ping {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: originPing 2.4s ease-out infinite;
+}
+
+@keyframes originPing {
+  0% {
+    transform: scale(0.35);
+    opacity: 0.9;
+  }
+  70% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .corridor-pulse,
+  .origin-ping {
+    animation: none;
+  }
+  .origin-ping {
+    opacity: 0.35;
+  }
+}
